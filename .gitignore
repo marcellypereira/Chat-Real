@@ -22,7 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-chat-real-backend/.env
 
 # Arquivos de ambiente
 .env
