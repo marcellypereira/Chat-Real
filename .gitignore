@@ -29,3 +29,4 @@ chat-real-backend/.env
 .env.local
 .env.development
 .env.production
+chat-real-backend/.env
