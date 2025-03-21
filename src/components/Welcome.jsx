@@ -33,15 +33,7 @@ const Welcome = () => {
         variants={slideUp}
         className="bg-white rounded-lg shadow-xl overflow-hidden"
       >
-        <div className="py-6 px-8 text-center text-white bg-primary">
-          <h1 className="text-3xl font-bold mb-2">Bem-vindo ao Chat Real</h1>
-          <p className="opacity-90">
-            A maneira mais rápida de se conectar com nosso atendimento
-          </p>
-        </div>
-
         <div className="p-8">
-          {/* QR Code centralizado */}
           <div className="text-center mb-6">
             <div className="bg-white p-4 mb-4 inline-block mx-auto">
               <QRCodeSVG
@@ -62,7 +54,6 @@ const Welcome = () => {
             </div>
           </div>
 
-          {/* Como funciona - com formato específico */}
           <div className="mb-8 bg-white text-center">
             <h3 className="font-bold text-lg mb-3 text-gray-600 py-1">
               Como funciona:
@@ -85,7 +76,6 @@ const Welcome = () => {
             </div>
           </div>
 
-          {/* Botões lado a lado */}
           <div className="grid grid-cols-2 gap-4">
             <motion.a
               href={whatsappLink}
