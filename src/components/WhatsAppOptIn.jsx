@@ -3,13 +3,10 @@ import { Link } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 
 const Welcome = () => {
-  // Número do Sandbox do Twilio (substitua pelo seu)
   const sandboxNumber = '+14155238886';
 
-  // Código de join do Sandbox (substitua pelo seu)
-  const joinCode = 'join something-word'; // Substitua pelo seu código correto do Twilio
+  const joinCode = 'join something-word';
 
-  // Criar link do WhatsApp com mensagem pré-preenchida
   const whatsappLink = `https://wa.me/${sandboxNumber.replace(
     '+',
     '',
@@ -28,7 +25,6 @@ const Welcome = () => {
         </p>
 
         <div className="flex flex-col md:flex-row gap-8 mb-8">
-          {/* QR Code */}
           <div className="flex-1 card bg-white p-6 flex flex-col items-center">
             <h2 className="text-xl font-bold text-primary-700 mb-3 text-center">
               Conecte seu WhatsApp
@@ -64,7 +60,6 @@ const Welcome = () => {
             </a>
           </div>
 
-          {/* Instruções e Navegação */}
           <div className="flex-1">
             <div className="card bg-secondary-50 p-6 mb-6">
               <h2 className="text-xl font-bold text-secondary-700 mb-3">

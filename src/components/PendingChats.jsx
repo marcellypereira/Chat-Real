@@ -19,49 +19,47 @@ const PendingChats = () => {
     navigate('/active');
   };
 
+  // Animações mais sutis
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.3 } },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.2 } },
+  };
+
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
       className="space-y-4"
     >
-      <h2 className="text-2xl font-bold text-gray-800">
-        Solicitações Pendentes
-      </h2>
+      <h2 className="text-2xl font-bold">Solicitações Pendentes</h2>
 
       {pendingChats.length === 0 ? (
-        <motion.div
-          className="bg-white rounded-lg shadow-md p-8"
-          initial={{ scale: 0.9 }}
-          animate={{ scale: 1 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-        >
+        <motion.div className="p-8" variants={itemVariants}>
           <div className="text-center mb-6">
-            <motion.div
-              initial={{ y: -20 }}
-              animate={{ y: 0 }}
-              transition={{ delay: 0.1 }}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-16 w-16 mx-auto text-text-primary-400 mb-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-16 w-16 mx-auto text-gray-400 mb-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
-                />
-              </svg>
-            </motion.div>
-            <p className="text-gray-600 mb-4">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+              />
+            </svg>
+            <p className="text-text-primary-400 mb-4">
               Não há solicitações pendentes no momento.
             </p>
-            <p className="text-gray-700 mb-4">
+            <p className="text-text-primary-400 mb-4">
               Para receber mensagens, conecte seu WhatsApp através do QR code na
               página inicial.
             </p>
@@ -70,7 +68,7 @@ const PendingChats = () => {
           <div className="flex justify-center">
             <button
               onClick={() => navigate('/')}
-              className="bg-indigo-600 text-white py-2 px-6 rounded-md hover:bg-indigo-700 transition-colors"
+              className="bg-primary text-white py-2 px-6 rounded-md hover:opacity-90 transition-opacity"
             >
               Ir para página inicial
             </button>
@@ -81,51 +79,45 @@ const PendingChats = () => {
           {pendingChats.map((chat, index) => (
             <motion.div
               key={chat.id}
-              className="bg-white rounded-lg shadow-md p-4 border-l-4 border-amber-500 hover:shadow-lg transition-shadow"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              className="bg-white rounded-lg shadow-chat p-4 border-l-4 border-warning hover:shadow-lg transition-shadow"
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
               transition={{ delay: index * 0.05 }}
             >
               <div className="flex justify-between items-start mb-3">
                 <div>
-                  <h3 className="font-bold text-lg">
+                  <h3 className="font-bold text-lg text-text-primary">
                     {chat.contactName || 'Contato sem nome'}
                   </h3>
-                  <p className="text-gray-500">{chat.phoneNumber}</p>
+                  <p className="text-text-secondary">{chat.phoneNumber}</p>
                 </div>
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: 'spring' }}
-                  className="bg-amber-100 text-amber-700 font-medium px-3 py-1 rounded-full text-sm"
-                >
+                <div className="bg-warning/20 text-warning font-medium px-3 py-1 rounded-full text-sm">
                   Aguardando
-                </motion.div>
+                </div>
               </div>
 
               <div className="mb-3">
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-text-secondary">
                     Tempo de espera:
                   </span>
-                  <motion.span
-                    className="font-mono bg-gray-100 px-2 py-1 rounded text-sm"
-                    animate={{
-                      color:
-                        timers[chat.id]?.elapsedTime > 60
-                          ? '#ef4444'
-                          : '#6b7280',
-                    }}
+                  <span
+                    className={`font-mono px-2 py-1 rounded text-sm ${
+                      timers[chat.id]?.elapsedTime > 60
+                        ? 'text-danger bg-danger/10'
+                        : 'text-text-secondary bg-gray-100'
+                    }`}
                   >
                     {formatSeconds(timers[chat.id]?.elapsedTime)}
-                  </motion.span>
+                  </span>
                 </div>
               </div>
 
               <div className="flex space-x-2">
                 <button
                   onClick={() => handleAttendChat(chat.id)}
-                  className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition-colors flex-grow flex items-center justify-center"
+                  className="bg-primary text-white py-2 px-4 rounded-md hover:opacity-90 transition-opacity flex-grow flex items-center justify-center"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

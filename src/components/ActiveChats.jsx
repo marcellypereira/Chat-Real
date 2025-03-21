@@ -41,54 +41,52 @@ const ActiveChats = () => {
     }
   };
 
+  // Animações mais sutis
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.3 } },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.2 } },
+  };
+
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
       className="space-y-4"
     >
-      <h2 className="text-2xl font-bold text-gray-800">
-        Atendimentos em Andamento
-      </h2>
+      <h2 className="text-2xl font-bold">Atendimentos em Andamento</h2>
 
       {activeChats.length === 0 ? (
-        <motion.div
-          className="bg-white rounded-lg shadow-md p-8"
-          initial={{ scale: 0.9 }}
-          animate={{ scale: 1 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-        >
+        <motion.div className="p-8" variants={itemVariants}>
           <div className="text-center">
-            <motion.div
-              initial={{ y: -20 }}
-              animate={{ y: 0 }}
-              transition={{ delay: 0.1 }}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-16 w-16 mx-auto text-text-primary-400 mb-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-16 w-16 mx-auto text-gray-400 mb-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                />
-              </svg>
-            </motion.div>
-            <p className="text-gray-600 mb-2">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+              />
+            </svg>
+            <p className="text-text-primary-400 mb-2">
               Não há atendimentos em andamento no momento.
             </p>
-            <p className="text-gray-600 mt-2 mb-4">
+            <p className="text-text-primary-400 mt-2 mb-4">
               Vá para a aba "Solicitações" para atender novas mensagens.
             </p>
             <button
               onClick={() => navigate('/pending')}
-              className="bg-indigo-600 text-white py-2 px-6 rounded-md hover:bg-indigo-700 transition-colors"
+              className="bg-primary text-white py-2 px-6 rounded-md hover:opacity-90 transition-opacity"
             >
               Ver Solicitações
             </button>
@@ -97,18 +95,22 @@ const ActiveChats = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {activeChats.map((chat, index) => (
-            <div
+            <motion.div
               key={chat.id}
-              className="bg-white rounded-lg shadow-md p-4 border-l-4 border-indigo-500"
+              className="bg-white rounded-lg shadow-chat p-4 border-l-4 border-primary"
+              variants={itemVariants}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: index * 0.05 }}
             >
               <div className="flex justify-between items-start mb-3">
                 <div>
-                  <h3 className="font-bold text-lg">
+                  <h3 className="font-bold text-lg text-text-primary">
                     {chat.contactName || 'Contato sem nome'}
                   </h3>
-                  <p className="text-gray-500">{chat.phoneNumber}</p>
+                  <p className="text-text-secondary">{chat.phoneNumber}</p>
                 </div>
-                <div className="bg-indigo-100 text-indigo-700 font-medium px-3 py-1 rounded-full text-sm">
+                <div className="bg-primary/20 text-primary font-medium px-3 py-1 rounded-full text-sm">
                   Em atendimento
                 </div>
               </div>
@@ -119,8 +121,8 @@ const ActiveChats = () => {
                     <MessageCircle
                       className={`h-4 w-4 ${
                         selectedServices[chat.id]?.chat
-                          ? 'text-indigo-600'
-                          : 'text-gray-400'
+                          ? 'text-primary'
+                          : 'text-text-secondary'
                       }`}
                     />
                     <span className="text-sm">Conversar</span>
@@ -132,7 +134,7 @@ const ActiveChats = () => {
                       checked={!!selectedServices[chat.id]?.chat}
                       onChange={() => toggleService(chat.id, 'chat')}
                     />
-                    <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"></div>
+                    <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                   </label>
                 </div>
 
@@ -141,8 +143,8 @@ const ActiveChats = () => {
                     <Phone
                       className={`h-4 w-4 ${
                         selectedServices[chat.id]?.voice
-                          ? 'text-indigo-600'
-                          : 'text-gray-400'
+                          ? 'text-primary'
+                          : 'text-text-secondary'
                       }`}
                     />
                     <span className="text-sm">Ligação</span>
@@ -154,7 +156,7 @@ const ActiveChats = () => {
                       checked={!!selectedServices[chat.id]?.voice}
                       onChange={() => toggleService(chat.id, 'voice')}
                     />
-                    <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"></div>
+                    <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                   </label>
                 </div>
 
@@ -163,8 +165,8 @@ const ActiveChats = () => {
                     <Video
                       className={`h-4 w-4 ${
                         selectedServices[chat.id]?.video
-                          ? 'text-indigo-600'
-                          : 'text-gray-400'
+                          ? 'text-primary'
+                          : 'text-text-secondary'
                       }`}
                     />
                     <span className="text-sm">Vídeo</span>
@@ -176,7 +178,7 @@ const ActiveChats = () => {
                       checked={!!selectedServices[chat.id]?.video}
                       onChange={() => toggleService(chat.id, 'video')}
                     />
-                    <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"></div>
+                    <div className="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
                   </label>
                 </div>
               </div>
@@ -184,16 +186,16 @@ const ActiveChats = () => {
               <button
                 onClick={() => handleStartChat(chat.id)}
                 disabled={!isServiceSelected(chat.id)}
-                className={`w-full flex items-center justify-center py-2 rounded-lg transition-colors ${
+                className={`w-full flex items-center justify-center py-2 rounded-lg transition-opacity ${
                   isServiceSelected(chat.id)
-                    ? 'bg-indigo-600 text-white hover:bg-indigo-700'
-                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    ? 'bg-primary text-white hover:opacity-90'
+                    : 'bg-gray-200 text-text-secondary cursor-not-allowed'
                 }`}
               >
                 <Check className="mr-2 h-5 w-5" />
                 Iniciar Atendimento
               </button>
-            </div>
+            </motion.div>
           ))}
         </div>
       )}
