@@ -17,9 +17,8 @@ const Layout = ({ children, isConnected }) => {
               <img
                 src="/logo-chat.png"
                 alt="Chat Real Logo"
-                className="h-8 mr-2"
+                className="h-16 mr-2"
               />
-              Chat Real
             </div>
           </NavLink>
           <div className="flex items-center space-x-2">
@@ -28,7 +27,7 @@ const Layout = ({ children, isConnected }) => {
                 isConnected ? 'bg-success' : 'bg-danger'
               }`}
             />
-            <span className="text-sm">
+            <span className="text-sm font-bold">
               {isConnected ? 'Conectado' : 'Desconectado'}
             </span>
           </div>
